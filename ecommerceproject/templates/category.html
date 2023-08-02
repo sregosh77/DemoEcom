@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{category.description|truncatewords:150}}
+    {% else %}
+        WELCOME TO SPORTS STORE WHERE YOU CAN BUY SPORTS ITEMS......
+    {% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+        {{category.name}}...sports store
+    {% else %}
+        SEE OUR NEW COLLECTION---SPORTS STORE
+    {% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+
+     <div>
+         <div class="row my_row_class" style="padding-top: 15px;">
+             <div class="mx_auto">
+             <p><a href="{% url 'app:allProdCat' %}">OUR PRODUCT COLLECTION</a></p>
+
+
+         </div>
+
+     </div>
+     {% endif %}
+<div class="mx_auto">
+    {% if category %}
+        <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+
+</div>
+<br>
+<div>
+        <h1 class="text-center my_title"> {{category.name}}</h1>
+        <p class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="OUR PRODUCTS">
+<br>
+<div>
+    <h1 class="text-center my_title">OUR PRODUCTS COLLECTIONS</h1>
+    <P class="text-justify">Sports equipment refers to a large amount of equipment which is used in sports. Starting with the bats, – and balls, and rackets to the shoes and socks and glasses there are a lot of things that come under the umbrella of’ Sports equipment. About 25 years ago tennis rackets were made from wood,
+        with ash, maple etc. leading the way. Later in the sixties metal frames were introduced. Today composite rackets are the rage because of the efficiency they
+        offer in accelerating the ball across the net and in terms of the dangerous vibrations that lead to tennis elbow. For example,
+        Bobby Riggs with his 1939 wooden racket, would have no chance against Pete Sampras armed with an over sized composite racket with an enlarged “sweet spot”,
+        although Bobby Riggs was an excellent player. The shoes today offer greater grip and have better cushioning which helps prevent, heel damage.
+        Sports clothing today is made of fabric that is sweat resistant and wrinkle free. The discovery of Lycra has meant the athletes can stretch better, run better and compete better.
+        Specialized sports equipment which hits particular muscle groups has meant the athletes clan train specific muscles. Today sports equipment is necessary if one wants to compete internationally. Though talent still plays a big role in the success of athletes, sports equipment is what gives them the extra edge.</P>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products %}
+        <div class="my_bottom_margi col-9 col-sm-12  col-md-12 col-lg-4">
+            <div class="card text-center" style="min-width:18rem;">
+                <a href="{{product.get_url}}"><img class="card-image-top my_image" src="{{product.image.url}}" alt="{{product.name}}"></a>
+            <div class="card-body">
+               <h4>{{product.name}}</h4>
+               <p>{{product.price}}</p>
+            </div>
+             </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{ pg }}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{ pg }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+     </div>
+{% endblock %}
